@@ -1,13 +1,29 @@
 {
-  "miniprogramRoot": "./dist",
+  "miniprogramRoot": "dist/",
   "projectname": "taro-netEase",
   "description": "使用taro开发的网易云音乐",
-  "appid": "touristappid",
+  "appid": "wx13a0395a70e1b37c",
   "setting": {
     "urlCheck": true,
     "es6": false,
     "postcss": false,
-    "minified": false
+    "minified": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
   },
-  "compileType": "miniprogram"
+  "compileType": "miniprogram",
+  "libVersion": "2.29.0",
+  "srcMiniprogramRoot": "dist/",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
 }

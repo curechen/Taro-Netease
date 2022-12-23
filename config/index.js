@@ -1,3 +1,13 @@
+/*
+ * @Author: curechen 981470148@qq.com
+ * @Date: 2022-12-06 21:28:00
+ * @LastEditors: curechen 981470148@qq.com
+ * @LastEditTime: 2022-12-20 17:13:58
+ * @FilePath: \taro-netEase\config\index.js
+ * @Description: 
+ */
+import path from 'path';
+
 const config = {
   projectName: 'taro-netEase',
   date: '2022-12-6',
@@ -11,6 +21,10 @@ const config = {
   outputRoot: 'dist',
   plugins: [],
   defineConstants: {
+  },
+  alias: {
+    '@/components': path.resolve(__dirname, '..', 'src/components'),
+    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
   },
   copy: {
     patterns: [

@@ -1,8 +1,15 @@
+/*
+ * @Author: curechen 981470148@qq.com
+ * @Date: 2022-12-06 21:28:00
+ * @LastEditors: curechen 981470148@qq.com
+ * @LastEditTime: 2022-12-23 09:41:22
+ * @FilePath: \taro-netEase\src\pages\index\index.tsx
+ * @Description: 
+ */
 import { Component } from 'react'
-import { connect } from 'react-redux'
+import classnames from 'classnames'
 import { View, Button, Text } from '@tarojs/components'
-
-import { add, minus, asyncAdd } from '../../actions/counter'
+import { connect } from '@/utils/connect'
 
 import './index.scss'
 
@@ -41,17 +48,16 @@ interface Index {
 @connect(({ counter }) => ({
   counter
 }), (dispatch) => ({
-  add () {
-    dispatch(add())
-  },
-  dec () {
-    dispatch(minus())
-  },
-  asyncAdd () {
-    dispatch(asyncAdd())
-  }
+
 }))
 class Index extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+
+    }
+  }
+
   componentWillReceiveProps (nextProps) {
     console.log(this.props, nextProps)
   }
@@ -64,11 +70,15 @@ class Index extends Component {
 
   render () {
     return (
-      <View className='index'>
-        <Button className='add_btn' onClick={this.props.add}>+</Button>
+      <View
+        className={classnames({
+          index_container: true,
+        })}
+      >
+        {/* <Button className='add_btn' onClick={this.props.add}>+</Button>
         <Button className='dec_btn' onClick={this.props.dec}>-</Button>
         <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
-        <View><Text>{this.props.counter.num}</Text></View>
+        <View><Text>{this.props.counter.num}</Text></View> */}
         <View><Text>Hello, World</Text></View>
       </View>
     )
