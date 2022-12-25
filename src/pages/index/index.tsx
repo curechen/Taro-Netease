@@ -2,16 +2,19 @@
  * @Author: curechen 981470148@qq.com
  * @Date: 2022-12-06 21:28:00
  * @LastEditors: curechen 981470148@qq.com
- * @LastEditTime: 2022-12-23 09:41:22
+ * @LastEditTime: 2022-12-25 14:35:43
  * @FilePath: \taro-netEase\src\pages\index\index.tsx
- * @Description: 
+ * @Description:
  */
-import { Component } from 'react'
-import classnames from 'classnames'
-import { View, Button, Text } from '@tarojs/components'
-import { connect } from '@/utils/connect'
+import Taro from "@tarojs/taro";
+import { Component } from "react";
+import classnames from "classnames";
+import { AtTabBar } from "taro-ui";
+import { View, Button, Text } from "@tarojs/components";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { connect } from "@/utils/connect";
 
-import './index.scss'
+import "./index.scss";
 
 // #region 书写注意
 //
@@ -25,50 +28,74 @@ import './index.scss'
 
 type PageStateProps = {
   counter: {
-    num: number
-  }
-}
+    num: number;
+  };
+};
 
 type PageDispatchProps = {
-  add: () => void
-  dec: () => void
-  asyncAdd: () => any
-}
+  add: () => void;
+  dec: () => void;
+  asyncAdd: () => any;
+};
 
-type PageOwnProps = {}
+type PageOwnProps = {};
 
-type PageState = {}
+type PageState = {
+  current: number;
+  test: number;
+};
 
-type IProps = PageStateProps & PageDispatchProps & PageOwnProps
+type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 
 interface Index {
   props: IProps;
 }
 
-@connect(({ counter }) => ({
-  counter
-}), (dispatch) => ({
+@connect(
+  ({ counter }) => ({
+    counter,
+  }),
+  (dispatch) => ({})
+)
 
-}))
-class Index extends Component {
+// 使用泛型去标识组件中的属性或状态变量
+class Index extends Component<IProps, PageState> {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-
-    }
+      current: 0,
+      test: 1,
+    };
   }
 
-  componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props, nextProps);
   }
 
-  componentWillUnmount () { }
+  componentWillUnmount() {}
 
-  componentDidShow () { }
+  componentDidShow() {}
 
-  componentDidHide () { }
+  componentDidHide() {}
 
-  render () {
+  // 下面是自定义方法
+  
+  // tab栏路由跳转
+  switchTab(value) {
+    console.log(value);
+    // reLaunch会清楚
+    Taro.reLaunch({
+      url: "/pages/my/index"
+    });
+  }
+
+  buttonClick() {
+    this.setState({
+      test: this.state.test + 1,
+    });
+  }
+
+  render() {
     return (
       <View
         className={classnames({
@@ -79,11 +106,23 @@ class Index extends Component {
         <Button className='dec_btn' onClick={this.props.dec}>-</Button>
         <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
         <View><Text>{this.props.counter.num}</Text></View> */}
-        <View><Text>Hello, World</Text></View>
+        <View>
+          <Text>当前的test:{this.state.test}</Text>
+        </View>
+        <Button onClick={this.buttonClick.bind(this)}>这是一个按钮</Button>
+        <AtTabBar
+          fixed
+          selectedColor='#d43c33'
+          tabList={[
+            { title: "发现", iconPrefixClass: "fa", iconType: "feed" },
+            { title: "我的", iconPrefixClass: "fa", iconType: "music" }
+          ]}
+          onClick={this.switchTab.bind(this)}
+          current={this.state.current}
+        />
       </View>
-    )
+    );
   }
 }
 
-export default Index
-
+export default Index;

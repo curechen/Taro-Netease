@@ -2,7 +2,7 @@
  * @Author: curechen 981470148@qq.com
  * @Date: 2022-12-06 21:28:00
  * @LastEditors: curechen 981470148@qq.com
- * @LastEditTime: 2022-12-20 17:13:58
+ * @LastEditTime: 2022-12-24 15:58:01
  * @FilePath: \taro-netEase\config\index.js
  * @Description: 
  */
@@ -33,6 +33,23 @@ const config = {
     }
   },
   framework: 'react',
+  // 小程序端专用配置
+  weapp: {
+    module: {
+      postcss: {
+        autoprefixer: {
+          enable: true
+        },
+        // 小程序端样式引用本地资源内联配置
+        url: {
+          enable: true,
+          config: {
+            limit: 10240 // 文件大小限制
+          }
+        }
+      }
+    }
+  },
   mini: {
     postcss: {
       pxtransform: {
@@ -59,6 +76,8 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
+    // taro-ui 额外配置
+    esnextModules: ["taro-ui"],
     postcss: {
       autoprefixer: {
         enable: true,
