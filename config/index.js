@@ -2,7 +2,7 @@
  * @Author: curechen 981470148@qq.com
  * @Date: 2022-12-06 21:28:00
  * @LastEditors: curechen 981470148@qq.com
- * @LastEditTime: 2022-12-24 15:58:01
+ * @LastEditTime: 2022-12-25 16:29:41
  * @FilePath: \taro-netEase\config\index.js
  * @Description: 
  */
@@ -35,6 +35,7 @@ const config = {
   framework: 'react',
   // 小程序端专用配置
   weapp: {
+    esnextModules: ["taro-ui"],
     module: {
       postcss: {
         autoprefixer: {

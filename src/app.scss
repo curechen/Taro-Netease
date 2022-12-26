@@ -1,0 +1,7 @@
+@import "./base.scss";
+
+// reset taro ui
+// 对搜索框样式进行重写
+.at-search-bar__action {
+  background-color: $primary-color;
+}

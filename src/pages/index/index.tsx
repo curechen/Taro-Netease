@@ -2,14 +2,14 @@
  * @Author: curechen 981470148@qq.com
  * @Date: 2022-12-06 21:28:00
  * @LastEditors: curechen 981470148@qq.com
- * @LastEditTime: 2022-12-25 14:35:43
+ * @LastEditTime: 2022-12-26 09:51:00
  * @FilePath: \taro-netEase\src\pages\index\index.tsx
  * @Description:
  */
 import Taro from "@tarojs/taro";
 import { Component } from "react";
 import classnames from "classnames";
-import { AtTabBar } from "taro-ui";
+import { AtTabBar, AtSearchBar } from "taro-ui";
 import { View, Button, Text } from "@tarojs/components";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { connect } from "@/utils/connect";
@@ -42,7 +42,8 @@ type PageOwnProps = {};
 
 type PageState = {
   current: number;
-  test: number;
+  searchValue: string;
+  test: boolean;
 };
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
@@ -64,7 +65,9 @@ class Index extends Component<IProps, PageState> {
     super(props);
     this.state = {
       current: 0,
-      test: 1,
+      // 这里必须赋空值，因为右边按钮的显示逻辑是当你点击或者框中有搜索值时会一直显示
+      searchValue: '',
+      test: false,
     };
   }
 
@@ -83,33 +86,51 @@ class Index extends Component<IProps, PageState> {
   // tab栏路由跳转
   switchTab(value) {
     console.log(value);
-    // reLaunch会清楚
+    // reLaunch会删去所有页面，之所以用这个方法也是考虑到登陆账号后首页数据会有所更新
     Taro.reLaunch({
       url: "/pages/my/index"
     });
   }
 
+  // 跳转搜索框
+  goSearch() {
+    console.log('点击' + this.state.test);
+    // Taro.navigateTo({
+    //   url: `/pages/packageA/pages/search/index`
+    // });
+  }
+
   buttonClick() {
     this.setState({
-      test: this.state.test + 1,
+      test: this.state.test,
     });
   }
 
   render() {
+    const { searchValue } = this.state;
+
     return (
       <View
         className={classnames({
           index_container: true,
         })}
       >
-        {/* <Button className='add_btn' onClick={this.props.add}>+</Button>
-        <Button className='dec_btn' onClick={this.props.dec}>-</Button>
-        <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
-        <View><Text>{this.props.counter.num}</Text></View> */}
+
+        <View onClick={this.goSearch.bind(this)}>
+          <AtSearchBar
+            disabled
+            value={searchValue}
+            onChange={this.goSearch.bind(this)}
+          />
+        </View>
+
+{/* 
         <View>
           <Text>当前的test:{this.state.test}</Text>
         </View>
-        <Button onClick={this.buttonClick.bind(this)}>这是一个按钮</Button>
+        <Button onClick={this.buttonClick.bind(this)}>这是一个按钮</Button> */}
+        
+        {/* 底部tabBar */}
         <AtTabBar
           fixed
           selectedColor='#d43c33'
