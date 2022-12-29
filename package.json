@@ -9,6 +9,7 @@
 				"css": "sass"
 		},
 		"scripts": {
+				"api": "cd NeteaseCloudMusicApi && cross-env PORT=3000 node app.js",
 				"build:weapp": "taro build --type weapp",
 				"build:swan": "taro build --type swan",
 				"build:alipay": "taro build --type alipay",
@@ -18,7 +19,8 @@
 				"build:qq": "taro build --type qq",
 				"build:jd": "taro build --type jd",
 				"build:quickapp": "taro build --type quickapp",
-				"dev:weapp": "npm run build:weapp -- --watch",
+				"dev:weapp-origin": "npm run build:weapp -- --watch",
+				"dev:weapp": "concurrently \"npm run api\" \"npm run dev:weapp-origin\"",
 				"dev:swan": "npm run build:swan -- --watch",
 				"dev:alipay": "npm run build:alipay -- --watch",
 				"dev:tt": "npm run build:tt -- --watch",
@@ -71,6 +73,8 @@
 				"babel-preset-env": "^1.6.1",
 				"babel-preset-taro": "3.3.14",
 				"commitizen": "^4.0.3",
+				"concurrently": "^7.6.0",
+				"cross-env": "^7.0.3",
 				"cz-conventional-changelog": "^3.0.2",
 				"eslint": "^4.19.1",
 				"eslint-config-taro": "3.3.14",

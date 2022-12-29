@@ -2,7 +2,7 @@
  * @Author: curechen 981470148@qq.com
  * @Date: 2022-12-06 21:28:00
  * @LastEditors: curechen 981470148@qq.com
- * @LastEditTime: 2022-12-26 09:51:00
+ * @LastEditTime: 2022-12-29 16:41:07
  * @FilePath: \taro-netEase\src\pages\index\index.tsx
  * @Description:
  */
@@ -10,7 +10,9 @@ import Taro from "@tarojs/taro";
 import { Component } from "react";
 import classnames from "classnames";
 import { AtTabBar, AtSearchBar } from "taro-ui";
-import { View, Button, Text } from "@tarojs/components";
+import { View, Swiper, SwiperItem, Image } from "@tarojs/components";
+import api from "../../services/api";
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { connect } from "@/utils/connect";
 
@@ -43,6 +45,11 @@ type PageOwnProps = {};
 type PageState = {
   current: number;
   searchValue: string;
+  bannerList: Array<{
+    typeTitle: string;
+    pic: string;
+    targetId: number;
+  }>;
   test: boolean;
 };
 
@@ -65,14 +72,20 @@ class Index extends Component<IProps, PageState> {
     super(props);
     this.state = {
       current: 0,
-      // 这里必须赋空值，因为右边按钮的显示逻辑是当你点击或者框中有搜索值时会一直显示
+      // 搜索值这里必须赋空值，因为右边按钮的显示逻辑是当你点击或者框中有搜索值时会一直显示
       searchValue: '',
+      bannerList: [],
       test: false,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     console.log(this.props, nextProps);
+  }
+
+  componentWillMount() {
+    console.log('执行willmount');
+    this.getBanner();
   }
 
   componentWillUnmount() {}
@@ -100,6 +113,22 @@ class Index extends Component<IProps, PageState> {
     // });
   }
 
+  // 获取轮播图
+  getBanner() {
+    api
+      .get("/banner", {
+        type: 1
+      })
+      .then(({ data }) => {
+        console.log("banner", data);
+        if (data.banners) {
+          this.setState({
+            bannerList: data.banners
+          });
+        }
+      });
+  }
+
   buttonClick() {
     this.setState({
       test: this.state.test,
@@ -107,7 +136,7 @@ class Index extends Component<IProps, PageState> {
   }
 
   render() {
-    const { searchValue } = this.state;
+    const { searchValue, bannerList } = this.state;
 
     return (
       <View
@@ -116,19 +145,28 @@ class Index extends Component<IProps, PageState> {
         })}
       >
 
-        <View onClick={this.goSearch.bind(this)}>
-          <AtSearchBar
-            disabled
-            value={searchValue}
-            onChange={this.goSearch.bind(this)}
-          />
-        </View>
+        {/* 搜索框 */}
+        <AtSearchBar
+          disabled
+          value={searchValue}
+          onChange={this.goSearch.bind(this)}
+        />
 
-{/* 
-        <View>
-          <Text>当前的test:{this.state.test}</Text>
-        </View>
-        <Button onClick={this.buttonClick.bind(this)}>这是一个按钮</Button> */}
+        {/* 轮播图 */}
+        <Swiper
+          className='test-h'
+          indicatorColor='#999'
+          indicatorActiveColor='#d43c33'
+          circular
+          indicatorDots
+          autoplay
+        >
+          {bannerList.map(item => (
+            <SwiperItem key={item.targetId} className="banner_list__item">
+              <Image src={item.pic} className="banner_list__item__img" />
+            </SwiperItem>
+          ))}
+        </Swiper>
         
         {/* 底部tabBar */}
         <AtTabBar
