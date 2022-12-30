@@ -1,19 +1,23 @@
 @import '../../base.scss';
 .index_container {
+  // background-color: #8F8F8F;
     padding-bottom: 120px;
     &.hasMusicBox {
         padding-bottom: 220px;
     }
     .banner_list {
         height: 375px;
-        margin-top: 20px;
-    }
-    .banner_list__item__img {
-        width: 92%;
-        height: 375px;
-        position: relative;
-        left: 4%;
-        border-radius: 20px;
+        margin-top: 15px;
+        &__item {
+          text-align: center;
+          &__img {
+            width: 92%;
+            height: 100%;
+            position: relative;
+            // left: 4%;
+            border-radius: 24px;
+          }
+        }
     }
     .index_header {
         position: fixed;

@@ -2,7 +2,7 @@
  * @Author: curechen 981470148@qq.com
  * @Date: 2022-12-06 21:28:00
  * @LastEditors: curechen 981470148@qq.com
- * @LastEditTime: 2022-12-29 16:41:07
+ * @LastEditTime: 2022-12-30 13:57:25
  * @FilePath: \taro-netEase\src\pages\index\index.tsx
  * @Description:
  */
@@ -154,7 +154,7 @@ class Index extends Component<IProps, PageState> {
 
         {/* 轮播图 */}
         <Swiper
-          className='test-h'
+          className='banner_list'
           indicatorColor='#999'
           indicatorActiveColor='#d43c33'
           circular
