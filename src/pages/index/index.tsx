@@ -2,7 +2,7 @@
  * @Author: curechen 981470148@qq.com
  * @Date: 2022-12-06 21:28:00
  * @LastEditors: curechen 981470148@qq.com
- * @LastEditTime: 2022-12-30 13:57:25
+ * @LastEditTime: 2023-01-01 15:14:19
  * @FilePath: \taro-netEase\src\pages\index\index.tsx
  * @Description:
  */
@@ -12,6 +12,8 @@ import classnames from "classnames";
 import { AtTabBar, AtSearchBar } from "taro-ui";
 import { View, Swiper, SwiperItem, Image } from "@tarojs/components";
 import api from "../../services/api";
+import CLoading from "../../components/CLoading";
+
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { connect } from "@/utils/connect";
@@ -50,6 +52,7 @@ type PageState = {
     pic: string;
     targetId: number;
   }>;
+  showLoading: boolean;
   test: boolean;
 };
 
@@ -75,10 +78,12 @@ class Index extends Component<IProps, PageState> {
       // 搜索值这里必须赋空值，因为右边按钮的显示逻辑是当你点击或者框中有搜索值时会一直显示
       searchValue: '',
       bannerList: [],
+      showLoading: true,
       test: false,
     };
   }
 
+  // https://docs.taro.zone/docs/apis/about/tarocomponent#componentwillreceiveprops
   componentWillReceiveProps(nextProps) {
     console.log(this.props, nextProps);
   }
@@ -90,7 +95,9 @@ class Index extends Component<IProps, PageState> {
 
   componentWillUnmount() {}
 
-  componentDidShow() {}
+  componentDidShow() {
+    this.removeLoading();
+  }
 
   componentDidHide() {}
 
@@ -129,6 +136,17 @@ class Index extends Component<IProps, PageState> {
       });
   }
 
+  removeLoading() {
+    // setTimeout(() => {
+    //   this.setState({
+    //     showLoading: false
+    //   });
+    // }, 1000)
+    this.setState({
+      showLoading: false
+    });
+  }
+
   buttonClick() {
     this.setState({
       test: this.state.test,
@@ -136,7 +154,7 @@ class Index extends Component<IProps, PageState> {
   }
 
   render() {
-    const { searchValue, bannerList } = this.state;
+    const { searchValue, bannerList, showLoading } = this.state;
 
     return (
       <View
@@ -144,6 +162,8 @@ class Index extends Component<IProps, PageState> {
           index_container: true,
         })}
       >
+        <CLoading fullPage={true} hide={!showLoading} />
+
 
         {/* 搜索框 */}
         <AtSearchBar

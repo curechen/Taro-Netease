@@ -3,6 +3,7 @@
   "projectname": "taro-netEase",
   "setting": {
     "compileHotReLoad": true,
-    "urlCheck": false
+    "urlCheck": false,
+    "bigPackageSizeSupport": true
   }
 }
