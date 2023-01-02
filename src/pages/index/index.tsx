@@ -2,7 +2,7 @@
  * @Author: curechen 981470148@qq.com
  * @Date: 2022-12-06 21:28:00
  * @LastEditors: curechen 981470148@qq.com
- * @LastEditTime: 2023-01-01 15:14:19
+ * @LastEditTime: 2023-01-02 15:33:21
  * @FilePath: \taro-netEase\src\pages\index\index.tsx
  * @Description:
  */
@@ -13,6 +13,10 @@ import { AtTabBar, AtSearchBar } from "taro-ui";
 import { View, Swiper, SwiperItem, Image } from "@tarojs/components";
 import api from "../../services/api";
 import CLoading from "../../components/CLoading";
+import CListItem from "../../components/CListItem";
+import {
+  getRecommendPlayList,
+} from "../../actions/song";
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,15 +35,17 @@ import "./index.scss";
 // #endregion
 
 type PageStateProps = {
-  counter: {
-    num: number;
-  };
+  recommendPlayList: Array<{
+    id: number;
+    name: string;
+    picUrl: string;
+    playCount: number;
+  }>;
 };
 
 type PageDispatchProps = {
-  add: () => void;
-  dec: () => void;
-  asyncAdd: () => any;
+  getRecommendPlayList: () => any;
+
 };
 
 type PageOwnProps = {};
@@ -63,10 +69,15 @@ interface Index {
 }
 
 @connect(
-  ({ counter }) => ({
-    counter,
+  ({ song }) => ({
+    song: song,
+    recommendPlayList: song.recommendPlayList,
   }),
-  (dispatch) => ({})
+  (dispatch) => ({
+    getRecommendPlayList() {
+      dispatch(getRecommendPlayList());
+    },
+  })
 )
 
 // 使用泛型去标识组件中的属性或状态变量
@@ -91,6 +102,7 @@ class Index extends Component<IProps, PageState> {
   componentWillMount() {
     console.log('执行willmount');
     this.getBanner();
+    this.getPersonalized();
   }
 
   componentWillUnmount() {}
@@ -136,6 +148,11 @@ class Index extends Component<IProps, PageState> {
       });
   }
 
+  // 获取推荐歌单
+  getPersonalized() {
+    this.props.getRecommendPlayList();
+  }
+
   removeLoading() {
     // setTimeout(() => {
     //   this.setState({
@@ -154,6 +171,7 @@ class Index extends Component<IProps, PageState> {
   }
 
   render() {
+    const { recommendPlayList } = this.props;
     const { searchValue, bannerList, showLoading } = this.state;
 
     return (
@@ -188,6 +206,19 @@ class Index extends Component<IProps, PageState> {
           ))}
         </Swiper>
         
+        {/* 推荐歌单 */}
+        <View className="recommend_playlist">
+          <View className="recommend_playlist__title">推荐歌单</View>
+          <View className="recommend_playlist__content">
+            {recommendPlayList.map(item => (
+              <CListItem
+                item={item}
+                clickMethod={() => {console.log('我执行了呃呃呃呃')}}
+              />
+            ))}
+          </View>
+        </View>
+
         {/* 底部tabBar */}
         <AtTabBar
           fixed
